@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linerub | Rub lines with your friends</title>
+
+    <!-- Bootstrap -->
+    <link type='text/css' href="/css/bootstrap.css" rel="stylesheet" />
+    <link type='text/css' href="/css/style.css" rel="stylesheet" />
+    <link href="/css/simple-sidebar.css" rel="stylesheet" />
+
+    {% block css %}
+    {% endblock %}
+
+    <style>
+    body {
+      font-family: Baskerville, serif !important;
+      padding-top: 100px;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 200;
+    }
+    </style>
+
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="container">
+        <a class="brand" href="/"><font face="cursive">Lr</font></a>
+          <ul class="nav pull-right">
+
+            {% if user.is_authenticated %}
+              <a class="brand" style="padding-top:3px;padding-bottom:6px;" href="#menu-toggle" id="menu-toggle"><img src="/images/list-view-18.png"></a>
+            {% else %}
+            {% endif %}
+
+          </ul>
+
+      </div>
+    </div>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                  <li class="sidebar-brand"><a>Hi, {{user.username}}</a></li>
+                  <li><p><a href="/create/">Share a story</a></p></li>
+                  <li><p><a href="/view/">My stories</a></p></li>
+                  <li><p><a href="/profile/{{user.username}}/">View my profile</a></p></li>
+                  <li><a href="/exchange/">Exchange!</a></li>
+                  <li class="sidebar-brand"><a>Help and settings</a></li>
+                  <li><p><a href="/faq/">Help doc</a></p></li>
+                  <li><a style="color:#dd3b38;background:#FBEBEA;border-top:1px solid #dd3b38;border-bottom:1px solid #dd3b38;" href="/logout/">Log me out</a></li>
+                </ul>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    {% block body %}
+    {% endblock %}
+
+    {% block extra-js %}
+    {% endblock %}
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>
+    var dropdown = document.querySelectorAll('.dropdown');
+    var dropdownArray = Array.prototype.slice.call(dropdown,0);
+    dropdownArray.forEach(function(el){
+        var button = el.querySelector('a[data-toggle="dropdown"]'), menu = el.querySelector('.dropdown-menu'), arrow = button.querySelector('i.icon-arrow');
+        button.onclick = function(event) {
+            if(!menu.hasClass('show')) {
+                menu.classList.add('show');
+                menu.classList.remove('hide');
+                arrow.classList.add('open');
+                arrow.classList.remove('close');
+                event.preventDefault();
+            }
+            else {
+                menu.classList.remove('show');
+                menu.classList.add('hide');
+                arrow.classList.remove('open');
+                arrow.classList.add('close');
+                event.preventDefault();
+            }
+        };
+    })
+
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    Element.prototype.hasClass = function(className) {
+        return this.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(this.className);
+    };
+    </script>
+    <script type='text/javascript' src="/js/bootstrap.js"></script>
+    <script type='text/javascript' src="/js/story.js"></script>
+    <script type='text/javascript' src="/js/animation_simple.js"></script>
+
+  </body>
+</html>

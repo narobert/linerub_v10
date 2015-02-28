@@ -1,0 +1,452 @@
+{% extends "base.html" %}
+
+{% block css %}
+  <link type='text/css' href="/css/flexslider.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+<!-- changes made -->
+
+{% if flag == True %}
+<div class="container">
+  <p><font style="font-size:14px;">No stories yet! create one&nbsp; <a class="linkcreate" href="/create/">here</a> &nbsp;friend</font></p>
+</div>
+{% else %}
+<div class="container">
+  <p><font style="font-size:14px;">Saved Drafts</font></p>
+  <hr>
+  <br>
+  {% for s in story %}
+    {% if s.publish == False %}
+    <div class="altogether">
+      <div class="dateBox" style="width:100%;">
+        <div class="poopbox">
+          <p class="pubdate">{{s.date|date}}, by&nbsp; <a class="linkme" id="linkred" href="/profile/{{s.user.username}}">{{s.user.username}}</a></p>
+        </div>
+      </div>
+      <div class="nextObjectW" id="colorredW">
+        <div class="containcontain redborder" id="containme{{s.id}}">
+          <div class="containme">
+            <a class="linkthree editred" href="/nextw/{{s.id}}">edit</a>
+            <a class="linkthree editred" href="/delete/{{s.id}}/">delete</a>
+          </div>
+        </div>
+        <div class="textpart colorred" id="linktwo{{s.id}}">
+        <center>
+        {% for w, i, x in snippet %}
+          {% if x == s.id %}
+            {% if w.links == None %}
+              <p class="format">{{w}}</p>
+            {% else %}
+              <p class="formats">{{w.links}}</p>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        </center>
+        {% for d in template %}
+          {% for n, c, l, q in d %}
+            {% if q == s.id %}
+              <br>
+              {% for word, index, y, pos in snippet_large %}
+                {% if pos == c %}
+                  {% if y == s.id %}
+                    {% if word.links == None %}
+                      <p class="format">{{word}}</p>
+                    {% else %}
+                      <p class="formats">{{word.links}}</p>
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
+</div>
+
+<div class="container">
+  <p><font style="font-size:14px;">Published Stories</font></p>
+  <hr>
+  <br>
+  {% for s in story %}
+    {% if s.publish == True %}
+    <div class="altogether">
+    <div class="dateBox" style="width:100%;">
+      <div class="poopbox">
+        <p class="pubdate">{{s.date|date}}, by&nbsp; <a class="linkme" id="linkpurp" href="/profile/{{s.user.username}}">{{s.user.username}}</a></p>
+      </div>
+    </div>
+    <div class="nextObjectW" id="colorpurpW">
+      <div class="containcontain purpleborder" id="containme{{s.id}}">
+        <div class="containme">
+          <a class="linkthree exchangepurp" id="linkthree{{s.id}}">add pics</a>
+          <a class="linkthree exchangepurp">view all pics</a>
+          <a class="linkthree exchangepurp" href="/delete/{{s.id}}/">delete</a>
+        </div>
+      </div>
+      <div class="textpart colorpurp" id="linktwo{{s.id}}">
+      <center>
+      {% for w, i, x in snippet %}
+        {% if x == s.id %}
+          {% if w.links == None %}
+            <p id="cool{{i}}{{s.id}}" class="format">{{w}}</p>
+          {% else %}
+            <p id="awesome{{i}}{{s.id}}" class="formats">{{w.links}}</p>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      </center>
+      {% for d in template %}
+        {% for n, c, l, q in d %}
+          {% if q == s.id %}
+            <br>
+            {% for word, index, y, pos in snippet_large %}
+              {% if pos == c %}
+                {% if y == s.id %}
+                  {% if word.links == None %}
+                    <p id="cooler{{index}}{{s.id}}" class="format">{{word}}</p>
+                  {% else %}
+                    <p id="awesomer{{index}}{{s.id}}" class="formats">{{word.links}}</p>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
+  {% if footer == True %}
+    <div class="container">
+      <p class="footer">&copy; 2015. Built with love by&nbsp; <a class="linkcreate" href="/contact/">M|ND</a></p>
+    </div>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- modal -->
+<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" id="close_x">×</button>
+    <p style="font-size:16px;margin-bottom:0;">Tag this token with an image!</p>
+  </div>
+  <div class="modal-body" style="padding-bottom:15px;">
+    <form method="POST" enctype="multipart/form-data" style="margin-bottom:10px;" id="form_id">
+      <input type="file" name="image" id="file" value="">
+    </form>
+    <img id="preview" width="100%" height="250px">
+  </div>
+  <div class="modal-footer">
+    <button class="btn" id="close">Close</button>
+    <button class="btn" name="submit" type="submit" form="form_id">Submit</button>
+  </div>
+</div>
+
+{% for w, i in snippet %}
+  <!-- modal -->
+  <div id="picModal{{i}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" id="close_y{{i}}">×</button>
+      <p style="font-size:16px;margin-bottom:0;">Pictures added for "{{w.links}}"</p>
+    </div>
+    <div class="modal-body">
+      <div class="flexslider" id="flexslider{{i}}">
+        <ul class="slides">
+        {% for q in w.path.all %}
+          <li>
+            <img id="picID{{q.id}}{{i}}" src="/media/{{q.paths}}/">
+            <div style="text-align:center"><a href="/profile/{{q.user}}"><button class="btn" style="margin-top:20px;">View {{q.user}}'s profile</button></a></div>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="closey{{i}}">Close</button>
+      <button class="btn" name="submit" type="submit" form="form_id">Add image</button>
+    </div>
+  </div>
+{% endfor %}
+
+{% for word, index in snippet_large %}
+  <!-- modal -->
+  <div id="picModal{{index}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" id="close_y{{index}}">×</button>
+      <p style="font-size:16px;margin-bottom:0;">Pictures added for "{{word.links}}"</p>
+    </div>
+    <div class="modal-body">
+      <div class="flexslider" id="flexslider{{index}}">
+        <ul class="slides">
+        {% for q in word.path.all %}
+          <li>
+            <img id="picID{{q.id}}{{index}}" src="/media/{{q.paths}}/">
+            <div style="text-align:center"><a href="/profile/{{q.user}}"><button class="btn" style="margin-top:20px;">View {{q.user}}'s profile</button></a></div>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="closey{{index}}">Close</button>
+      <button class="btn" name="submit" type="submit" form="form_id">Add image</button>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
+
+{% block extra-js %}
+
+  <script type='text/javascript' src="/js/jquery.flexslider.js"></script>
+
+  <script>
+
+  function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+              $('#preview').attr('src', e.target.result);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+
+  $("#file").change(function() {
+      readURL(this);
+  });
+
+  $(".altogether").each(function() {
+      $(this).find("#colorredW").css("border-color", "#dd3b38");
+      $(this).find(".colorred").css("border-color", "#dd3b38");
+      $(this).find(".colorred").css("color", "#dd3b38");
+      $(this).find("#linkred").css("border-color", "#dd3b38");
+      $(this).find("#linkred").css("color", "#dd3b38");
+      $(this).find(".editred").css("border-color", "#dd3b38");
+      $(this).find(".editred").css("color", "#dd3b38");
+      $(this).find(".colorred").css("background", "#FBEBEA");
+      $(this).find(".redborder").css("border-color", "#dd3b38");
+      $(this).find("#colorpurpW").css("border-color", "#783a95");
+      $(this).find(".colorpurp").css("border-color", "#783a95");
+      $(this).find(".colorpurp").css("color", "#783a95");
+      $(this).find("#linkpurp").css("color", "#783a95");
+      $(this).find("#linkpurp").css("border-color", "#783a95");
+      $(this).find(".exchangepurp").css("color", "#783a95");
+      $(this).find(".exchangepurp").css("border-color", "#783a95");
+      $(this).find(".colorpurp").css("background", "#F1EAF4");
+      $(this).find(".purpleborder").css("border-color", "#783a95");
+      $(this).find(".linkthree").addClass("initPurple");
+  });
+
+  {% for s in story %}
+
+    $(document).ready(function() {
+        $("#linktwo{{s.id}}").click(function() {
+            $("#containme{{s.id}}").slideToggle("medium");
+            if ($("#linkthree{{s.id}}").hasClass("purpleBackground")) {
+                $("#linkthree{{s.id}}").removeClass("purpleBackground");
+                $("#linkthree{{s.id}}").addClass("initPurple");
+            }
+            if (!$(this).hasClass("hoveringpics")) {
+                $(this).addClass("hoveringpics");
+                {% for w, i in snippet %}
+                    {% if w.path.all.count != 0 %}
+                        $("#awesome{{i}}{{s.id}}").addClass("hoverpics");
+                    {% endif %}
+                {% endfor %}
+                {% for word, index in snippet_large %}
+                    {% if word.path.all.count != 0 %}
+                        $("#awesomer{{index}}{{s.id}}").addClass("hoverpics");
+                    {% endif %}
+                {% endfor %} 
+            }
+            else {
+                $(this).removeClass("hoveringpics");
+                $("#linkthree{{s.id}}").removeClass("linkingpics");
+                {% for w, i in snippet %}
+                    {% if w.path.all.count != 0 %}
+                        $("#awesome{{i}}{{s.id}}").removeClass("hoverpics");
+                        $("#awesome{{i}}{{s.id}}").removeClass("linkpics");
+                    {% else %}
+                        $("#awesome{{i}}{{s.id}}").removeClass("linkpics");
+                    {% endif %}
+                {% endfor %}
+                {% for word, index in snippet_large %}
+                    {% if word.path.all.count != 0 %}
+                        $("#awesomer{{index}}{{s.id}}").removeClass("hoverpics");
+                        $("#awesomer{{index}}{{s.id}}").removeClass("linkpics");
+                    {% else %}
+                        $("#awesomer{{index}}{{s.id}}").removeClass("linkpics");
+                    {% endif %}
+                {% endfor %} 
+            }
+        });
+        $("#linktwo{{s.id}} p").click(function(e) {
+            e.stopPropagation();
+        });
+    });
+
+    $("#linkthree{{s.id}}").click(function() {
+        if ($(this).hasClass("initPurple")) {
+            $(this).removeClass("initPurple");
+            $(this).addClass("purpleBackground");
+        }
+        else if ($(this).hasClass("purpleBackground")) {
+            $(this).removeClass("purpleBackground");
+            $(this).addClass("initPurple");
+        }
+        if (!$(this).hasClass("linkingpics")) {
+            $(this).addClass("linkingpics");
+            {% for w, i in snippet %}
+                $("#awesome{{i}}{{s.id}}").addClass("linkpics");
+                {% if w.path.all.count != 0 %}
+                    $("#awesome{{i}}{{s.id}}").removeClass("hoverpics");
+                {% endif %}
+            {% endfor %}
+            {% for word, index in snippet_large %}
+                $("#awesomer{{index}}{{s.id}}").addClass("linkpics");
+                {% if word.path.all.count != 0 %}
+                    $("#awesomer{{index}}{{s.id}}").removeClass("hoverpics");
+                {% endif %}
+            {% endfor %} 
+        }
+        else {
+            $(this).removeClass("linkingpics");
+            {% for w, i in snippet %}
+                {% if w.path.all.count != 0 %}
+                    $("#awesome{{i}}{{s.id}}").addClass("hoverpics");
+                {% else %}
+                    $("#awesome{{i}}{{s.id}}").removeClass("linkpics");
+                {% endif %}
+            {% endfor %}
+            {% for word, index in snippet_large %}
+                {% if word.path.all.count != 0 %}
+                    $("#awesomer{{index}}{{s.id}}").addClass("hoverpics");
+                {% else %}
+                    $("#awesomer{{index}}{{s.id}}").removeClass("linkpics");
+                {% endif %}
+            {% endfor %} 
+        }
+    });
+
+    {% for w, i in snippet %}
+
+        $("#awesome{{i}}{{s.id}}").click(function() {
+            if ($(this).hasClass("hoverpics")) {
+                $('#picModal{{i}}').fadeIn("slow");
+                $('#flexslider{{i}}').flexslider({
+                    animation: "slide"
+                });
+            }
+            if ($(this).hasClass("linkpics")) {
+                $('#myModal').fadeIn("slow");
+                $("#form_id").attr("action", "/tag/{{s.id}}/{{w.id}}/");
+            }
+        });
+
+    {% endfor %}
+
+    {% for word, index in snippet_large %}
+
+        $("#awesomer{{index}}{{s.id}}").click(function() {
+            if ($(this).hasClass("hoverpics")) {
+                $('#picModal{{index}}').fadeIn("slow");
+                $('#flexslider{{index}}').flexslider({
+                    animation: "slide"
+                });
+            }
+            if ($(this).hasClass("linkpics")) {
+                $('#myModal').fadeIn("slow");
+                $("#form_id").attr("action", "/tag/{{s.id}}/{{word.id}}/");
+            }
+        });
+
+    {% endfor %}
+
+  {% endfor %}
+
+  $("#close_x").click(function() {
+      $('#myModal').fadeOut("slow");
+      $('#preview').attr('src', "");
+      $("#file").val("");
+  });
+
+  $("#close").click(function() {
+      $('#myModal').fadeOut("slow");
+      $('#preview').attr('src', "");
+      $("#file").val("");
+  });
+
+  $(document).mouseup(function(e) {
+
+      var container = $("#myModal");
+
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+
+          container.fadeOut("slow");
+          $('#preview').attr('src', "");
+          $("#file").val("");
+
+      }
+
+  });
+
+  {% for w, i in snippet %}
+
+    $("#close_y{{i}}").click(function() {
+        $('#picModal{{i}}').fadeOut("slow");
+    });
+
+    $("#closey{{i}}").click(function() {
+        $('#picModal{{i}}').fadeOut("slow");
+    });
+
+    $(document).mouseup(function(e) {
+
+        var container1 = $("#picModal{{i}}");
+
+        if (!container1.is(e.target) && container1.has(e.target).length === 0) {
+
+            container1.fadeOut("slow");
+
+        }
+  
+    });
+
+  {% endfor %}
+
+  {% for word, index in snippet_large %}
+
+    $("#close_y{{index}}").click(function() {
+        $('#picModal{{index}}').fadeOut("slow");
+    });
+
+    $("#closey{{index}}").click(function() {
+        $('#picModal{{index}}').fadeOut("slow");
+    });
+
+    $(document).mouseup(function(e) {
+
+        var container1 = $("#picModal{{index}}");
+
+        if (!container1.is(e.target) && container1.has(e.target).length === 0) {
+
+            container1.fadeOut("slow");
+
+        }
+  
+    });
+
+  {% endfor %}
+
+  </script>
+
+{% endblock %}

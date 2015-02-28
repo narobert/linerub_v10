@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linerub | Rub lines with your friends</title>
+
+    <!-- Bootstrap -->
+    <link type='text/css' href="/css/bootstrap.css" rel="stylesheet" />
+    <link type='text/css' href="/css/style.css" rel="stylesheet" />
+    <link href="/css/simple-sidebar.css" rel="stylesheet" />
+
+    {% block css %}
+    {% endblock %}
+
+    <style>
+    body {
+      font-family: Baskerville, serif !important;
+      padding-top: 40px;
+    }
+
+    p {
+      font-size: 18px;
+      font-weight: 200;
+    }
+    </style>
+
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+    <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+  </head>
+
+  <body>
+
+    <center>
+      <img src="/images/logo.jpg">
+    </center>
+
+    {% if form.errors %}
+
+    <div class="container">
+      <!--<div class="crazyBirdBox"><img id="crazyBird" src="/images/airplane_white.png"></div>-->
+        <center>
+        <div class="loginBox">
+          <div class="logBox" style="float:left">
+            <p class="logSize">Sign in</p>
+          </div>
+          <div class="regBox" style="float:right">
+            <p class="regSize">or register</p>
+          </div>
+          <form method="post" action="/login/" id="hideLog">
+            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="254" placeholder="Username" required>
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="4096" placeholder="Password" required>
+            <button class="btn btn-large" name="submit" type="submit">Log in</button>
+          </form>
+          <form method="POST" action="/register/" id="hideReg">
+            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
+            <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email" required>
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password" required>
+            <button class="btn btn-large" name="submit" type="submit">Sign up</button>
+          </form>
+        </div>
+        </center>
+      </div>
+      <!--<div class="errorRegBox"><p id="error">username already taken, try adding numbers</p></div>
+      <div class="explosionBox"><img id="explosion" src="/images/explosion_large.png"></div>
+      <div class="treeBox1"><img id="tree1" src="/images/tree.png"></div>
+      <div class="treeBox2"><img id="tree2" src="/images/tree.png"></div>
+      <div class="treeBox3"><img id="tree3" src="/images/tree.png"></div>
+      <div class="treeBox4"><img id="tree4" src="/images/tree.png"></div>
+      <div class="treeBox5"><img id="tree5" src="/images/tree.png"></div>
+      <div class="treeBox6"><img id="tree6" src="/images/tree.png"></div>
+      <div class="treeBox7"><img id="tree7" src="/images/tree.png"></div>
+      <div class="treeBox8"><img id="tree8" src="/images/tree.png"></div>
+      <div class="treeBox9"><img id="tree9" src="/images/tree.png"></div>
+      <div class="treeBox10"><img id="tree10" src="/images/tree.png"></div>
+      <div class="treeBox11"><img id="tree11" src="/images/tree.png"></div>
+      <div class="treeBox12"><img id="tree12" src="/images/tree.png"></div>
+      <div class="footer"></div>-->
+    </div>
+
+    {% else %}
+
+    <div class="container">
+      <!--<div class="birdBox"><img id="bird" src="/images/airplane_white.png"></div>-->
+        <center>
+        <div class="loginBox">
+          <div class="logBox" style="float:left">
+            <p class="logSize">Sign in</p>
+          </div>
+          <div class="regBox" style="float:right">
+            <p class="regSize">or register</p>
+          </div>
+          <form method="post" action="/login/" id="hideLog">
+            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="254" placeholder="Username" required>
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="4096" placeholder="Password" required>
+            <button class="btn btn-large" name="submit" type="submit">Log in</button>
+          </form>
+          <form method="POST" action="/register/" id="hideReg">
+            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
+            <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email" required>
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password" required>
+            <button class="btn btn-large" name="submit" type="submit">Sign up</button>
+          </form>
+        </div>
+        </center>
+      </div>
+      <!--<div class="bubbleBox"><p id="bubble">HELP!!!</p></div>
+      <div class="smokeBox1"><center><div id="smoke1">~</div></center></div>
+      <div class="smokeBox2"><center><div id="smoke2">~</div></center></div>
+      <div class="smokeBox3"><center><div id="smoke3">~</div></center></div>
+      <div class="franticBox1"><center><div id="frantic1">|</div></center></div>
+      <div class="franticBox2"><center><div id="frantic2">|</div></center></div>
+      <div class="franticBox3"><center><div id="frantic3">|</div></center></div>
+      <div class="franticBox4"><center><div id="frantic4">|</div></center></div>
+      <div class="franticBox5"><center><div id="frantic5">|</div></center></div>
+      <div class="franticBox6"><center><div id="frantic6">|</div></center></div>
+      <div class="treeBox"><img id="tree" src="/images/tree.png"></div>
+      <div class="fireBox"><center><img id="fire" src="/images/fire.png"></center></div>
+      <div class="footer"></div>-->
+    </div>
+
+    {% endif %}
+
+    <!--<div class="bottomup">
+      <div class="container">
+        <div class="infoBox">
+          <div class="sizing">
+            <img src="/images/add.png">
+          </div>
+          <p class="information">Write a story and select words you'd like other users to tag with images</p>
+        </div>
+        <div class="infoBox">
+          <div class="sizing">
+            <img src="/images/user.png">
+          </div>
+          <p class="information">Follow friends and like their stories</p>
+        </div>
+        <div class="infoBox">
+          <div class="sizing">
+            <img src="/images/add.png">
+          </div>
+          <p class="information">Collaborate on stories by tagging them with pictures</p>
+        </div>
+      </div>
+    </div>-->
+
+    {% block body %}
+    {% endblock %}
+
+    {% block extra-js %}
+    {% endblock %}
+
+    <!-- Le javascript -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script>
+    var dropdown = document.querySelectorAll('.dropdown');
+    var dropdownArray = Array.prototype.slice.call(dropdown,0);
+    dropdownArray.forEach(function(el){
+        var button = el.querySelector('a[data-toggle="dropdown"]'), menu = el.querySelector('.dropdown-menu'), arrow = button.querySelector('i.icon-arrow');
+        button.onclick = function(event) {
+            if(!menu.hasClass('show')) {
+                menu.classList.add('show');
+                menu.classList.remove('hide');
+                arrow.classList.add('open');
+                arrow.classList.remove('close');
+                event.preventDefault();
+            }
+            else {
+                menu.classList.remove('show');
+                menu.classList.add('hide');
+                arrow.classList.remove('open');
+                arrow.classList.add('close');
+                event.preventDefault();
+            }
+        };
+    })
+
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+
+    Element.prototype.hasClass = function(className) {
+        return this.className && new RegExp("(^|\\s)" + className + "(\\s|$)").test(this.className);
+    };
+    </script>
+    <script type='text/javascript' src="/js/bootstrap.js"></script>
+    <script type='text/javascript' src="/js/story.js"></script>
+    <script type='text/javascript' src="/js/animation_simple.js"></script>
+
+  </body>
+</html>
