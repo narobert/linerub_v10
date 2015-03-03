@@ -426,13 +426,14 @@
 .deleteme {
   border: 1px solid #3a5795;
   margin-bottom: 0;
+  margin-right: 7px;
   display: inline-block;
   color: #3a5795;
   font-size: 14px;
   padding-top: 4px;
   padding-bottom: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 4px;
   cursor: pointer;
 }

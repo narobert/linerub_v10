@@ -531,8 +531,8 @@ def next(request):
             array.append([sums, count, len(v)])
 
         for w in trim:
-            total = total + 1
             heapq.heappush(heap, (w, total))
+            total = total + 1
 
         store = 0
         for l, p, c in array:
@@ -541,7 +541,8 @@ def next(request):
                 for word in trimmer:
                     total_large = total_large + 1
                     if (total_large > store and total_large <= l):
-                        heapq.heappush(heap_large, (word, total_large, p))
+                        heapq.heappush(heap_large, (word, total, p))
+                    total = total + 1
                 store = l
     
         sortme = sorted(heap, key=lambda x: x[1])
@@ -581,8 +582,8 @@ def nextw(request, id):
             array.append([sums, count, len(v)])
 
         for w in trim:
-            total = total + 1
             heapq.heappush(heap, (w, total))
+            total = total + 1
 
         store = 0
         for l, p, c in array:
@@ -591,7 +592,8 @@ def nextw(request, id):
                 for word in trimmer:
                     total_large = total_large + 1
                     if (total_large > store and total_large <= l):
-                        heapq.heappush(heap_large, (word, total_large, p))
+                        heapq.heappush(heap_large, (word, total, p))
+                    total = total + 1
                 store = l
     
         sortme = sorted(heap, key=lambda x: x[1])
