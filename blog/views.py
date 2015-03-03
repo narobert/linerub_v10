@@ -54,6 +54,7 @@ def exchange(request):
     story = Share.objects.filter(publish = True).order_by("?")[:1]
     tags = Link.objects.all()
     like = Like.objects.filter(user = request.user)
+    images = Image.objects.all()
 
     for s in story:
 
@@ -109,7 +110,7 @@ def exchange(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("exchange.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray})
+    return render_to_response("exchange.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
 
 
 def tag(request, id, word):
@@ -142,6 +143,7 @@ def dashboard(request):
     story = Share.objects.filter(publish = True).order_by("-id")
     tags = Link.objects.all()
     like = Like.objects.filter(user = request.user)
+    images = Image.objects.all()
 
     for s in story:
 
@@ -197,7 +199,7 @@ def dashboard(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray})
+    return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
 
 
 def view(request):
@@ -219,6 +221,7 @@ def view(request):
         footer = True
     
     tags = Link.objects.all()
+    images = Image.objects.all()
 
     for s in story:
 
@@ -274,7 +277,7 @@ def view(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("view.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "flag": nostory, "footer": footer, "template": allarray})
+    return render_to_response("view.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "flag": nostory, "footer": footer, "template": allarray, "images": images})
 
 
 def create(request):
@@ -331,6 +334,7 @@ def profile(request, username):
     total = 0
     total_large = 0
     num = 0
+    numImage = 0
     following = 0
     followers = 0
     nostory = False
@@ -357,6 +361,12 @@ def profile(request, username):
     story = Share.objects.filter(user__username=username, publish = True).order_by("-id")
     tags = Link.objects.all()
     like = Like.objects.filter(user = request.user)
+    myimages = Image.objects.filter(user__username=username).order_by("?")[:5]
+    images = Image.objects.all()
+
+    for m in myimages:
+
+        numImage = numImage + 1
 
     if (story.count() == 0):
         nostory = True
@@ -420,12 +430,7 @@ def profile(request, username):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("profile.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "posts": num, "username": username, "follow": follow, "following": following, "followers": followers, "flag": nostory, "footer": footer, "like": like, "template": allarray})
-
-
-
-
-
+    return render_to_response("profile.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "posts": num, "username": username, "follow": follow, "following": following, "followers": followers, "flag": nostory, "footer": footer, "like": like, "template": allarray, "myimages": myimages, "images": images, "number": numImage})
 
 
 def highlight(request):
@@ -486,13 +491,13 @@ def highlightw(request, id):
                 for w in trim:
                     if (word == w):
                         if (Link.objects.filter(links = word, story = story).count() == 0):
-                            link = Link.objects.create(links = word, story = story, path = None)
+                            link = Link.objects.create(links = word, story = story)
 
             for words in trimmest:
                 for w in trim:
                     if (words == w):
                         if (Link.objects.filter(links = words, story = story).count() == 0):
-                            link = Link.objects.create(links = words, story = story, path = None)
+                            link = Link.objects.create(links = words, story = story)
 
             return HttpResponseRedirect('/')
     else:
@@ -541,8 +546,6 @@ def next(request):
     
         sortme = sorted(heap, key=lambda x: x[1])
         sortme_large = sorted(heap_large, key=lambda x: x[1])
-
-        print sortme_large
 
         if not request.user.is_authenticated():
             return render_to_response("register.html")

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block css %}
-    <link type='text/css' href="/css/flexslider.css" rel="stylesheet" />
+  <link type='text/css' href="/css/flexslider.css" rel="stylesheet" />
 {% endblock %}
 
 {% block body %}
@@ -26,7 +26,7 @@
       <div class="containcontain" id="containme{{s.id}}">
         <div class="containme">
           <a class="linkthree" id="linkthree{{s.id}}">add pics</a>
-          <a class="linkthree">view all pics</a>
+          <a class="linkthree" id="viewall{{s.id}}">view all pics</a>
           {% for l in like %}
             {% if l.story.id == s.id %}
               {% if l.liking == True %}
@@ -95,6 +95,33 @@
     <button class="btn" name="submit" type="submit" form="form_id">Submit</button>
   </div>
 </div>
+
+{% for s in story %}
+  <!-- modal -->
+  <div id="viewModal{{s.id}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" id="close_view{{s.id}}">×</button>
+      <p style="font-size:16px;margin-bottom:0;">All images in this post</p>
+    </div>
+    <div class="modal-body">
+      <div class="flexslider" id="flexslider{{s.id}}">
+        <ul class="slides">
+        {% for i in images %}
+          {% if i.story.id == s.id %}
+          <li>
+            <img src="/media/{{i.paths}}/">
+            <div style="text-align:center"><a href="/profile/{{i.user}}"><button class="btn" style="margin-top:20px;">View {{i.user}}'s profile</button></a></div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="closeview{{s.id}}">Close</button>
+    </div>
+  </div>
+{% endfor %}
 
 {% for w, i in snippet %}
   <!-- modal -->
@@ -334,6 +361,13 @@
         }
     });
 
+    $("#viewall{{s.id}}").click(function() {
+        $('#viewModal{{s.id}}').fadeIn("slow");
+        $('#flexslider{{s.id}}').flexslider({
+            animation: "slide"
+        });
+    });
+
     {% for w, i in snippet %}
 
         $("#awesome{{i}}{{s.id}}").click(function() {
@@ -395,6 +429,30 @@
       }
 
   });
+
+  {% for s in story %}
+
+    $("#close_view{{s.id}}").click(function() {
+        $('#viewModal{{s.id}}').fadeOut("slow");
+    });
+
+    $("#closeview{{s.id}}").click(function() {
+        $('#viewModal{{s.id}}').fadeOut("slow");
+    });
+
+    $(document).mouseup(function(e) {
+
+        var container2 = $("#viewModal{{s.id}}");
+
+        if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+
+            container2.fadeOut("slow");
+
+        }
+
+    });
+
+  {% endfor %}
 
   {% for w, i in snippet %}
 

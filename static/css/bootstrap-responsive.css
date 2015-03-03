@@ -488,6 +488,9 @@
     margin-bottom: 40px;
     margin-top: -27px;
   }
+  .adjust {
+    margin-top:-40px;
+  }
   .span12 {
     width: 724px;
   }
@@ -836,6 +839,24 @@
     margin-left: -20px;
     margin-right: -20px;
     margin-top: -27px;
+  }
+  .bottomup {
+    width: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .alertRed {
+    width: auto;
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .loginBox {
+    margin-bottom: 55px;
+  }
+  .adjust {
+    margin-top:-40px;
   }
   .poopy {
     margin-top: 0;

@@ -33,10 +33,12 @@
   <body>
 
     <center>
-      <img src="/images/logo.jpg">
+      <img class="adjust" src="/images/logo.jpg">
     </center>
 
     {% if form.errors %}
+
+    <div class="alertRed"><p class="alertMiddle">Username already taken</p></div>
 
     <div class="container">
       <!--<div class="crazyBirdBox"><img id="crazyBird" src="/images/airplane_white.png"></div>-->
@@ -54,7 +56,7 @@
             <button class="btn btn-large" name="submit" type="submit">Log in</button>
           </form>
           <form method="POST" action="/register/" id="hideReg">
-            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
+            <input class="input-block-level focusme" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
             <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email" required>
             <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password" required>
             <button class="btn btn-large" name="submit" type="submit">Sign up</button>
@@ -97,7 +99,7 @@
             <button class="btn btn-large" name="submit" type="submit">Log in</button>
           </form>
           <form method="POST" action="/register/" id="hideReg">
-            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
+            <input class="input-block-level focusme" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
             <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email" required>
             <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password" required>
             <button class="btn btn-large" name="submit" type="submit">Sign up</button>
@@ -122,28 +124,40 @@
 
     {% endif %}
 
-    <!--<div class="bottomup">
+    <div class="bottomup" style="display:table;">
       <div class="container">
-        <div class="infoBox">
-          <div class="sizing">
-            <img src="/images/add.png">
-          </div>
-          <p class="information">Write a story and select words you'd like other users to tag with images</p>
+        <div style="display:table-cell;vertical-align:top;">
+          <p class="information">Linerub is a new and creative way to interact with friends. Nowadays users have complete control over their posts. At Linerub, we encourage collaboration: one user writes a post, other users tag that post with images.</p>
+        </div><br>
+        <div style="display:table-cell;vertical-align:top;">
+          <p class="information">What can you do at Linerub?</p>
+        </div><br>
+        <div style="display:table-cell;">
+          <img style="margin-right:15px;" src="/images/write.png" width="35px" height="35px">
         </div>
-        <div class="infoBox">
-          <div class="sizing">
-            <img src="/images/user.png">
-          </div>
+        <div style="display:table-cell;vertical-align:top;">
+          <p class="information">Write a post and select words you'd like other users to tag with images</p>
+        </div><br>
+        <div style="display:table-cell;">
+          <img style="margin-right:15px;" src="/images/user.png" width="35px" height="35px">
+        </div>
+        <div style="display:table-cell;vertical-align:top;">
           <p class="information">Follow friends and like their stories</p>
+        </div><br>
+        <div style="display:table-cell;">
+          <img style="margin-right:15px;" src="/images/add.png" width="35px" height="35px">
         </div>
-        <div class="infoBox">
-          <div class="sizing">
-            <img src="/images/add.png">
-          </div>
-          <p class="information">Collaborate on stories by tagging them with pictures</p>
+        <div style="display:table-cell;vertical-align:top;">
+          <p class="information">Add pictures to existing posts so that other users can be jealous of how awesome your life is</p>
+        </div><br>
+        <div style="display:table-cell;vertical-align:top;">
+          <p class="information" style="margin-right:10px;">Don't wait friend!</p>
         </div>
+        <div style="display:table-cell;">
+          <a class="moveme" id="movetotop">Sign up now</a>
+        </div><br>
       </div>
-    </div>-->
+    </div>
 
     {% block body %}
     {% endblock %}
@@ -154,6 +168,20 @@
     <!-- Le javascript -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script>
+
+    $('#movetotop').click(function() {
+      $('html, body').animate({scrollTop:0}, 'slow');
+      setTimeout(function() {
+        $('#hideLog').css("display", "none");
+        $('#hideReg').css("display", "block");
+        $('.regSize').css({'color': 'black', 'cursor': 'auto', 'opacity': 1, 'margin-left': '56px'});
+        $('.regSize').html("Register");
+        $('.logSize').css({'color': '#3a5795', 'cursor': 'pointer', 'opacity': 0.7});
+        $('.logSize').html("or sign in");
+        $('.focusme').focus();
+      }, 700);
+    });
+
     var dropdown = document.querySelectorAll('.dropdown');
     var dropdownArray = Array.prototype.slice.call(dropdown,0);
     dropdownArray.forEach(function(el){

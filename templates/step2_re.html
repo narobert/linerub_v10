@@ -11,9 +11,7 @@
   <p style="margin-bottom:50px;margin-top:14px;font-size:18px;"><font style="font-size:25px;font-weight:600;margin-right:10px;">step 2: </font> click on the words that best emphasize your story or feeling</p>
   <div class="nextObject">
     <div class="containmer">
-      <form method="POST" action="/highlightw/{{id}}/" id="formout">
-        <input class="input-block-level" type="text" id="highlights" name="highlight" required></input>
-      </form>
+      <div class="appendedtext"></div>
     </div>
     <div class="textparter">
       <center>
@@ -31,6 +29,9 @@
       {% endfor %}
     </div>
   </div>
+  <form method="POST" action="/highlightw/{{id}}/" id="formout">
+    <input class="input-block-level" type="text" id="highlights" name="highlight" required></input>
+  </form>
   <center><button class="btn btn-large bottoms" name="submit" type="submit" form="formout">Publish</button></center>
 </div>
 
@@ -48,11 +49,10 @@
 
     $("#awesome{{i}}").click(function() {
         $(".containmer").slideDown("medium");
-        if ($(this).hasClass("yee")) {
+        if ($(this).css("font-weight") == "bold") {
             return false;
         }
         else {
-            $(this).addClass("yee");
             $(this).css("font-weight", "bold");
             $(this).css("text-decoration", "underline");
             var value = $(this).text();
@@ -66,8 +66,35 @@
 
             var input = $("#highlights");
             input.val(input.val() + value + '  ');
+
+            var appendedtext = $(".appendedtext");
+            appendedtext.append("<div class=poopbox id=delete{{i}}>&nbsp;<p class=deleteme>&nbsp;<b>" + value + "</b>&nbsp;&nbsp;<a style=inline-block;color:#3a5795;>x</a>&nbsp;</p>&nbsp;</div>");
+
             return false;
         }
+    });
+
+    $("#delete{{i}}").live("click", function() {
+        $("#awesome{{i}}").css("font-weight", "normal");
+        $("#awesome{{i}}").css("text-decoration", "none");
+        var value = $("#awesome{{i}}").text();
+
+        {% for a, b in title %}
+        if ($("#awesome{{b}}").text() == value) {
+            $("#awesome{{b}}").css("font-weight", "normal");
+            $("#awesome{{b}}").css("text-decoration", "none");
+        }
+        {% endfor %}
+
+        $(this).html("");
+        $(this).css("border", "none");
+
+        var input = $("#highlights");
+        var appendedtext = $(".appendedtext");
+        var formtext = appendedtext.text().replace("x", " ").trim();
+        input.val(formtext + '  ');
+
+        return false;
     });
 
   {% endfor %}
@@ -76,26 +103,52 @@
 
     $("#awesomer{{index}}").click(function() {
         $(".containmer").slideDown("medium");
-        if ($(this).hasClass("yee")) {
+        if ($(this).css("font-weight") == "bold") {
             return false;
         }
         else {
-            $(this).addClass("yee");
             $(this).css("font-weight", "bold");
             $(this).css("text-decoration", "underline");
             var value = $(this).text();
 
-            {% for c, d in paragraph %}
-                if ($("#awesomer{{d}}").text() == value) {
-                    $("#awesomer{{d}}").css("font-weight", "bold");
-                    $("#awesomer{{d}}").css("text-decoration", "underline");
-                }
+            {% for c, d in title %}
+            if ($("#awesomer{{d}}").text() == value) {
+                $("#awesomer{{d}}").css("font-weight", "bold");
+                $("#awesomer{{d}}").css("text-decoration", "underline");
+            }
             {% endfor %}
 
             var input = $("#highlights");
             input.val(input.val() + value + '  ');
+
+            var appendedtext = $(".appendedtext");
+            appendedtext.append("<div class=poopbox id=delete{{index}}>&nbsp;<p class=deleteme>&nbsp;<b>" + value + "</b>&nbsp;&nbsp;<a style=inline-block;color:#3a5795;>x</a>&nbsp;</p>&nbsp;</div>");
+
             return false;
         }
+    });
+
+    $("#delete{{index}}").live("click", function() {
+        $("#awesomer{{index}}").css("font-weight", "normal");
+        $("#awesomer{{index}}").css("text-decoration", "none");
+        var value = $("#awesomer{{index}}").text();
+
+        {% for c, d in title %}
+        if ($("#awesomer{{d}}").text() == value) {
+            $("#awesomer{{d}}").css("font-weight", "normal");
+            $("#awesomer{{d}}").css("text-decoration", "none");
+        }
+        {% endfor %}
+
+        $(this).html("");
+        $(this).css("border", "none");
+
+        var input = $("#highlights");
+        var appendedtext = $(".appendedtext");
+        var formtext = appendedtext.text().replace("x", " ").trim();
+        input.val(formtext + '  ');
+
+        return false;
     });
 
   {% endfor %}
