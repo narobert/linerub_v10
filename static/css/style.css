@@ -12,6 +12,16 @@
 
 /* --- Footer --- */
 
+.moveme {
+  border: 1px solid #3a5795;
+  color: #3a5795;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 .bottomup {
   background: #EAEDF4;
   width: 100%;
@@ -33,7 +43,20 @@
 .information {
   text-align: justify;
   font-size: 14px;
+}
+.alertRed {
+  border-top: 1px solid #dd3b38;
+  border-bottom: 1px solid #dd3b38;
+  background: #FBEBEA;
+  color: #dd3b38;
+  padding-top: 10px;
+  padding-bottom: 10px;
   margin-bottom: 30px;
+}
+.alertMiddle {
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 /* --- Home --- */
@@ -224,6 +247,7 @@
 
 #formout {
   margin-bottom: 0;
+  display: none;
 }
 
 #inputBox {
@@ -296,6 +320,13 @@
 
 .follow {
   font-size: 14px;
+}
+
+.imagerow {
+  text-align: left;
+  font-size: 14px;
+  color: black;
+  margin-top: 15px;
 }
 
 .pubdate {
@@ -384,6 +415,20 @@
   border: 1px solid #7589b4;
   color: #7589b4;
   background: white;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deleteme {
+  border: 1px solid #3a5795;
+  margin-bottom: 0;
+  display: inline-block;
+  color: #3a5795;
+  font-size: 14px;
   padding-top: 4px;
   padding-bottom: 4px;
   padding-left: 4px;
@@ -555,9 +600,10 @@
 }
 
 .containmer {
-  padding-top: 5px;
-  padding-bottom: 7px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   padding-left: 3px;
+  height: 31px;
   border-bottom: 1px solid #3a5795;
   display: none;
 }
@@ -1022,8 +1068,7 @@
 }
 
 .loginBox {
-  margin-bottom: 60px;
-  margin-top: 40px;
+  margin-bottom: 85px;
 }
 
 .logSize {
