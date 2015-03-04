@@ -13,9 +13,6 @@ from blog.models import Share, Highlight, Link, Follow, Like, Image
 import re
 import heapq
 
-# import the SDK
-import woopra_tracker
-
 
 def home(request):
     if not request.user.is_authenticated():
@@ -200,12 +197,9 @@ def dashboard(request):
     sortme = sorted(array, key=lambda x: x[1])
     sortme_large = sorted(array_large, key=lambda x: x[1])
 
-    woopra = woopra_tracker.WoopraTracker(request)
-    woopra.config({'domain' : 'safe-scrubland-7854.herokuapp.com'})
-    woopra.track('clickme')
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("dashboard.html", {'woopra_code': woopra.js_code(), "user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
+    return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
 
 
 def view(request):
