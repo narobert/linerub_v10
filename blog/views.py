@@ -12,6 +12,7 @@ from blog.forms import UserForm, SubmitForm, HighlightForm, TagForm
 from blog.models import Share, Highlight, Link, Follow, Like, Image
 import re
 import heapq
+import random
 
 
 def home(request):
@@ -199,7 +200,15 @@ def dashboard(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
+
+    var random_num = random.random();
+
+    if (random_num > 0.5):
+        blah = True
+        return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "version": blah})
+    else:
+        blah = False
+        return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "altversion": blah})
 
 
 def view(request):

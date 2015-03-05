@@ -47,7 +47,11 @@ woopra.track();
   <body>
     <div class="navbar navbar-fixed-top">
       <div class="container">
-        <a class="brand" href="/"><font face="cursive">Lr</font></a>
+        {% if blah == True %}
+        <a class="brand" id="version" href="/"><font face="cursive">Lr</font></a>
+        {% else %}
+        <a class="brand" id="version_alt" href="/"><font face="cursive">Lr</font>&nbsp;&nbsp;home</a>
+        {% endif %}
           <ul class="nav pull-right">
 
             {% if user.is_authenticated %}
@@ -110,6 +114,14 @@ woopra.track();
             }
         };
     })
+
+    $("#version").click(function() {
+        woopra.track("version_click");
+    });
+
+    $("#version_alt").click(function() {
+        woopra.track("version_alt_click");
+    });
 
     $("#menu-toggle").click(function(e) {
         e.preventDefault();
