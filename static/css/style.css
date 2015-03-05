@@ -425,7 +425,7 @@
 
 .deleteme {
   border: 1px solid #3a5795;
-  margin-bottom: 0;
+  margin-bottom: 6px;
   margin-right: 7px;
   display: inline-block;
   color: #3a5795;
@@ -602,9 +602,8 @@
 
 .containmer {
   padding-top: 6px;
-  padding-bottom: 6px;
   padding-left: 3px;
-  height: 31px;
+  height: auto;
   border-bottom: 1px solid #3a5795;
   display: none;
 }
