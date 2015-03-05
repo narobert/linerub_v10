@@ -201,6 +201,7 @@ def dashboard(request):
     if not request.user.is_authenticated():
         return render_to_response("register.html")
 
+    # woopra added
     random_num = random.random()
 
     if (random_num > 0.5):
