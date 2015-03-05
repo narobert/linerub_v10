@@ -208,7 +208,7 @@ def dashboard(request):
         return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "version": blah})
     else:
         blah = False
-        return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "altversion": blah})
+        return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "version": blah})
 
 
 def view(request):
