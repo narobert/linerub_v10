@@ -201,7 +201,7 @@ def dashboard(request):
     if not request.user.is_authenticated():
         return render_to_response("register.html")
 
-    var random_num = random.random()
+    random_num = random.random()
 
     if (random_num > 0.5):
         blah = True
