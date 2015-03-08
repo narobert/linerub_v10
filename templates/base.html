@@ -28,30 +28,12 @@
 
     <link href="/css/bootstrap-responsive.css" rel="stylesheet">
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
-
-    <!-- Start of Woopra Code -->
-    <script>
-    (function(){
-        var t,i,e,n=window,o=document,a=arguments,s="script",r=["config","track","identify","visit","push","call","trackForm","trackClick"],c=function(){var t,i=this;for(i._e=[],t=0;r.length>t;t++)(function(t){i[t]=function(){return i._e.push([t].concat(Array.prototype.slice.call(arguments,0))),i}})(r[t])};for(n._w=n._w||{},t=0;a.length>t;t++)n._w[a[t]]=n[a[t]]=n[a[t]]||new c;i=o.createElement(s),i.async=1,i.src="//static.woopra.com/js/w.js",e=o.getElementsByTagName(s)[0],e.parentNode.insertBefore(i,e)
-})("woopra");
-
-    woopra.config({
-        domain: 'safe-scrubland-7854.herokuapp.com'
-    });
-    woopra.track();
-    </script>
-    <!-- End of Woopra Code -->
-
   </head>
 
   <body>
     <div class="navbar navbar-fixed-top">
       <div class="container">
-        {% if version.version == True %}
-        <a class="brand" id="version" href="/"><font face="cursive">Lr</font></a>
-        {% else %}
-        <a class="brand" id="version_alt" href="/"><font face="cursive">Lr</font>&nbsp;&nbsp;<font style="font-size:18px;">home</font></a>
-        {% endif %}
+        <a class="brand" href="/"><font face="cursive">Lr</font></a>
           <ul class="nav pull-right">
 
             {% if user.is_authenticated %}
@@ -73,7 +55,7 @@
                   <li><p><a href="/create/">Share a story</a></p></li>
                   <li><p><a href="/view/">My stories</a></p></li>
                   <li><p><a href="/profile/{{user.username}}/">View my profile</a></p></li>
-                  <li><p><a href="/exchange/">Rub a random!</a></p></li>
+                  <li><p><a href="/exchange/">Exchange!</a></p></li>
                   <li><p><a href="/faq/">Help document</a></p></li>
                   <li><a style="color:#dd3b38;background:#FBEBEA;border-top:1px solid #dd3b38;border-bottom:1px solid #dd3b38;" href="/logout/">Logout</a></li>
                 </ul>
@@ -114,14 +96,6 @@
             }
         };
     })
-
-    $("#version").click(function() {
-        woopra.track("version_click");
-    });
-
-    $("#version_alt").click(function() {
-        woopra.track("version_alt_click");
-    });
 
     $("#menu-toggle").click(function(e) {
         e.preventDefault();

@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
-
-# Just for woopra
-class Version(models.Model):
-    user = models.ForeignKey(User)
-    version = models.BooleanField(default=False)
+from datetime import datetime 
 
 # Create your models here.
 
@@ -43,3 +38,5 @@ class Like(models.Model):
     liking = models.BooleanField(default=False)
     user = models.ForeignKey(User)
     story = models.ForeignKey(Share)
+    
+  

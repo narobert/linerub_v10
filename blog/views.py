@@ -9,10 +9,9 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from blog.forms import UserForm, SubmitForm, HighlightForm, TagForm
-from blog.models import Share, Highlight, Link, Follow, Like, Image, Version
+from blog.models import Share, Highlight, Link, Follow, Like, Image
 import re
 import heapq
-import random
 
 
 def home(request):
@@ -34,15 +33,13 @@ def home(request):
 def faq(request):
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    version = Version.objects.get(user = request.user)
-    return render_to_response("help.html", {"user": request.user, "version": version})
+    return render_to_response("help.html", {"user": request.user})
 
 
 def contact(request):
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    version = Version.objects.get(user = request.user)
-    return render_to_response("contact.html", {"user": request.user, "version": version})
+    return render_to_response("contact.html", {"user": request.user})
 
 
 def exchange(request):
@@ -57,7 +54,6 @@ def exchange(request):
     story = Share.objects.filter(publish = True).order_by("?")[:1]
     tags = Link.objects.all()
     like = Like.objects.filter(user = request.user)
-    version = Version.objects.get(user = request.user)
     images = Image.objects.all()
 
     for s in story:
@@ -114,7 +110,7 @@ def exchange(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("exchange.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "version": version})
+    return render_to_response("exchange.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
 
 
 def tag(request, id, word):
@@ -124,7 +120,6 @@ def tag(request, id, word):
             image = form.cleaned_data['image']
             story = Share.objects.get(id = id)
             links = Link.objects.get(story = story, id = word) 
-            version = Version.objects.get(user = request.user)
             key = Image.objects.create(story = story, user = request.user, paths = image)
             key.save()
             links.path.add(key)
@@ -132,7 +127,7 @@ def tag(request, id, word):
             return HttpResponseRedirect('/')
     else:
         form = TagForm()
-    return render_to_response("dashboard.html", {"form": form, "version": version})
+    return render_to_response("dashboard.html", {"form": form})
     
 
 # Changes made
@@ -148,8 +143,6 @@ def dashboard(request):
     story = Share.objects.filter(publish = True).order_by("-id")
     tags = Link.objects.all()
     like = Like.objects.filter(user = request.user)
-    version = Version.objects.get(user = request.user)
-
     images = Image.objects.all()
 
     for s in story:
@@ -206,7 +199,7 @@ def dashboard(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images, "version": version})
+    return render_to_response("dashboard.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "like": like, "template": allarray, "images": images})
 
 
 def view(request):
@@ -228,7 +221,6 @@ def view(request):
         footer = True
     
     tags = Link.objects.all()
-    version = Version.objects.get(user = request.user)
     images = Image.objects.all()
 
     for s in story:
@@ -285,14 +277,13 @@ def view(request):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("view.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "flag": nostory, "footer": footer, "template": allarray, "images": images, "version": version})
+    return render_to_response("view.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "flag": nostory, "footer": footer, "template": allarray, "images": images})
 
 
 def create(request):
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    version = Version.objects.get(user = request.user)
-    return render_to_response("create.html", {"user": request.user, "version": version})
+    return render_to_response("create.html", {"user": request.user})
     
 
 def delete(request, id):
@@ -371,7 +362,6 @@ def profile(request, username):
     tags = Link.objects.all()
     like = Like.objects.filter(user = request.user)
     myimages = Image.objects.filter(user__username=username).order_by("?")[:5]
-    version = Version.objects.get(user = request.user)
     images = Image.objects.all()
 
     for m in myimages:
@@ -440,7 +430,7 @@ def profile(request, username):
 
     if not request.user.is_authenticated():
         return render_to_response("register.html")
-    return render_to_response("profile.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "posts": num, "username": username, "follow": follow, "following": following, "followers": followers, "flag": nostory, "footer": footer, "like": like, "template": allarray, "myimages": myimages, "images": images, "number": numImage, "version": version})
+    return render_to_response("profile.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "posts": num, "username": username, "follow": follow, "following": following, "followers": followers, "flag": nostory, "footer": footer, "like": like, "template": allarray, "myimages": myimages, "images": images, "number": numImage})
 
 
 def highlight(request):
@@ -522,8 +512,6 @@ def next(request):
     total_large = 0
     array = []
 
-    version = Version.objects.get(user = request.user)
-
     if (Share.objects.filter(user = request.user, publish = False).count() > 0):
         story = Share.objects.filter(user = request.user, publish = False).order_by('-pk')[0]
         cool = str(story.title)
@@ -565,7 +553,7 @@ def next(request):
     else:
         sortme = None
         sortme_large = None
-    return render_to_response("step2.html", {"user": request.user, "title": sortme, "paragraph": sortme_large, "template": array, "version": version})
+    return render_to_response("step2.html", {"user": request.user, "title": sortme, "paragraph": sortme_large, "template": array})
 
 
 def nextw(request, id):
@@ -574,8 +562,6 @@ def nextw(request, id):
     heap_large = []
     total_large = 0
     array = []
-
-    version = Version.objects.get(user = request.user)
 
     if (Share.objects.filter(id = id, publish = False).count() > 0):
         story = Share.objects.get(id = id)
@@ -618,7 +604,7 @@ def nextw(request, id):
     else:
         sortme = None
         sortme_large = None
-    return render_to_response("step2_re.html", {"user": request.user, "title": sortme, "paragraph": sortme_large, "id": id, "template": array, "version": version})
+    return render_to_response("step2_re.html", {"user": request.user, "title": sortme, "paragraph": sortme_large, "id": id, "template": array})
 
 
 def submit(request):
@@ -643,15 +629,6 @@ def register(request):
             pw = form.cleaned_data['password']
             newuser = User.objects.create_user(name, form.cleaned_data['email'], pw)
             newuser.save()
-
-            # woopra added
-            random_num = random.random()
-            if (random_num > 0.5):
-                version = Version.objects.create(user = newuser, version = True)
-            else:
-                version = Version.objects.create(user = newuser, version = False)
-            version.save()
-
             users = User.objects.all()
             stories = Share.objects.all()
             user = authenticate(username = name, password = pw)
