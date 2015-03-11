@@ -1,12 +1,37 @@
+/* --- Input placeholder --- */
+
+#inputBox::-webkit-input-placeholder { 
+  color: #777777;
+}
+#inputBox:-moz-placeholder {
+  color: #777777;
+}
+#inputBox::-moz-placeholder {
+  color: #777777;
+}
+#inputBox:-ms-input-placeholder {
+  color: #777777;
+}
+#textbox::-webkit-input-placeholder { 
+  color: #777777;
+}
+#textbox:-moz-placeholder {
+  color: #777777;
+}
+#textbox::-moz-placeholder {
+  color: #777777;
+}
+#textbox:-ms-input-placeholder {
+  color: #777777;
+}
+
 /* --- Modal transparency --- */
 
-.transparency {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: #EAEDF4;
+.transtitle {
+  display: none;
+}
+
+.transparagraph {
   display: none;
 }
 
@@ -51,6 +76,8 @@
   color: #dd3b38;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-right: 15px;
+  padding-left: 15px;
   margin-bottom: 30px;
 }
 .alertMiddle {
@@ -591,6 +618,13 @@
   width: 100%;
   display: table;
   table-layout: fixed;
+}
+
+.blueme {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+  border-top: 1px solid #3a5795;
 }
 
 .containunder {

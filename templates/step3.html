@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block css %}
+  <link type='text/css' href="/css/flexslider.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+
+<!-- changes made -->
+
+<div class="container">
+  <p style="margin-bottom:50px;margin-top:14px;font-size:18px;"><font style="font-size:25px;font-weight:600;margin-right:10px;">step 3 (optional): </font> click on the highlighted words to tag them with pictures (before anyone else can!)</p>
+  <div class="altogether">
+    <div class="nextObjectW" style="margin-bottom:0;">
+      <div class="textparter" id="linktwo{{story.id}}">
+      <center>
+      {% for w, i, x in snippet %}
+        {% if x == story.id %}
+          {% if w.links == None %}
+            <p id="cool{{i}}{{story.id}}" class="format">{{w}}</p>
+          {% else %}
+            <p id="awesome{{i}}{{story.id}}" class="formats">{{w.links}}</p>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      </center>
+      {% for d in template %}
+        {% for n, c, l, q in d %}
+          {% if q == story.id %}
+            <br>
+            {% for word, index, y, pos in snippet_large %}
+              {% if pos == c %}
+                {% if y == story.id %}
+                  {% if word.links == None %}
+                    <p id="cooler{{index}}{{story.id}}" class="format">{{word}}</p>
+                  {% else %}
+                    <p id="awesomer{{index}}{{story.id}}" class="formats">{{word.links}}</p>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+      </div>
+      {% if number > 0 %}
+      <div class="blueme">
+        <a class="linkthree" id="viewall{{story.id}}" style="color:#3a5795;">view pics that you've added</a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="dateBox" style="width:100%;">
+      <p class="pub"><a href="/"><button class="btn btn-large bottoms" name="submit" type="submit">Finished</button></a><a href="/"><button class="btn btn-large bottoms" name="submit" type="submit" style="margin-left:10px;">Skip</button></a></p>
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
+<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" id="close_x">×</button>
+    <p style="font-size:16px;margin-bottom:0;">Tag this token with an image!</p>
+  </div>
+  <div class="modal-body" style="padding-bottom:15px;">
+    <form method="POST" enctype="multipart/form-data" style="margin-bottom:10px;" id="form_id">
+      <input type="file" name="image" id="file" value="">
+    </form>
+    <img id="preview" width="100%" height="250px">
+  </div>
+  <div class="modal-footer">
+    <button class="btn" id="close">Close</button>
+    <button class="btn" name="submit" type="submit" form="form_id">Submit</button>
+  </div>
+</div>
+
+<!-- modal -->
+  <div id="viewModal{{story.id}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" id="close_view{{story.id}}">×</button>
+      <p style="font-size:16px;margin-bottom:0;">All images in this post</p>
+    </div>
+    <div class="modal-body">
+      <div class="flexslider" id="flexslider{{story.id}}">
+        <ul class="slides">
+        {% for i in images %}
+          {% if i.story.id == story.id %}
+          <li>
+            <img src="/media/{{i.paths}}/">
+            <div style="text-align:center"><a href="/profile/{{i.user}}"><button class="btn" style="margin-top:20px;">View {{i.user}}'s profile</button></a></div>
+          </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="closeview{{story.id}}">Close</button>
+    </div>
+  </div>
+<!-- endmodal -->
+
+{% endblock %}
+
+{% block extra-js %}
+
+  <script type='text/javascript' src="/js/jquery.flexslider.js"></script>
+
+  <script>
+
+  function readURL(input) {
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+              $('#preview').attr('src', e.target.result);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+      }
+  }
+
+  $("#file").change(function() {
+      readURL(this);
+  });
+
+  $(document).ready(function() {
+      {% for w, i in snippet %}
+          $("#awesome{{i}}{{story.id}}").addClass("linkpics");
+      {% endfor %}
+      {% for word, index in snippet_large %}
+          $("#awesomer{{index}}{{story.id}}").addClass("linkpics");
+      {% endfor %} 
+  });
+
+  $("#viewall{{story.id}}").click(function() {
+      $('#viewModal{{story.id}}').fadeIn("slow");
+      $('#flexslider{{story.id}}').flexslider({
+          animation: "slide"
+      });
+  });
+
+  {% for w, i in snippet %}
+
+      $("#awesome{{i}}{{story.id}}").click(function() {
+          $('#myModal').fadeIn("slow");
+          $("#form_id").attr("action", "/tagfirst/{{story.id}}/{{w.id}}/");
+      });
+
+  {% endfor %}
+
+  {% for word, index in snippet_large %}
+
+      $("#awesomer{{index}}{{story.id}}").click(function() {
+          $('#myModal').fadeIn("slow");
+          $("#form_id").attr("action", "/tagfirst/{{story.id}}/{{word.id}}/");
+      });
+
+  {% endfor %}
+
+  $("#close_x").click(function() {
+      $('#myModal').fadeOut("slow");
+      $('#preview').attr('src', "");
+      $("#file").val("");
+  });
+
+  $("#close").click(function() {
+      $('#myModal').fadeOut("slow");
+      $('#preview').attr('src', "");
+      $("#file").val("");
+  });
+
+  $(document).mouseup(function(e) {
+
+      var container = $("#myModal");
+
+      if (!container.is(e.target) && container.has(e.target).length === 0) {
+
+          container.fadeOut("slow");
+          $('#preview').attr('src', "");
+          $("#file").val("");
+
+      }
+
+  });
+
+  $("#close_view{{story.id}}").click(function() {
+      $('#viewModal{{story.id}}').fadeOut("slow");
+  });
+
+  $("#closeview{{story.id}}").click(function() {
+      $('#viewModal{{story.id}}').fadeOut("slow");
+  });
+
+  $(document).mouseup(function(e) {
+
+      var container2 = $("#viewModal{{story.id}}");
+
+      if (!container2.is(e.target) && container2.has(e.target).length === 0) {
+
+          container2.fadeOut("slow");
+
+      }
+
+  });
+
+  </script>
+
+{% endblock %}

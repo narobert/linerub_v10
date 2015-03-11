@@ -96,7 +96,7 @@
           {% if w.links == None %}
             <p id="cool{{i}}{{s.id}}" class="format">{{w}}</p>
           {% else %}
-            <p id="awesome{{i}}{{s.id}}" class="formats">{{w.links}}</p>
+            <p id="awesome{{x}}{{i}}{{s.id}}" class="formats">{{w.links}}</p>
           {% endif %}
         {% endif %}
       {% endfor %}
@@ -111,7 +111,7 @@
                   {% if word.links == None %}
                     <p id="cooler{{index}}{{s.id}}" class="format">{{word}}</p>
                   {% else %}
-                    <p id="awesomer{{index}}{{s.id}}" class="formats">{{word.links}}</p>
+                    <p id="awesomer{{y}}{{index}}{{s.id}}" class="formats">{{word.links}}</p>
                   {% endif %}
                 {% endif %}
               {% endif %}
@@ -176,19 +176,19 @@
   </div>
 {% endfor %}
 
-{% for w, i in snippet %}
+{% for w, i, x in snippet %}
   <!-- modal -->
-  <div id="picModal{{i}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div id="picModal{{x}}{{i}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" id="close_y{{i}}">×</button>
       <p style="font-size:16px;margin-bottom:0;">Pictures added for "{{w.links}}"</p>
     </div>
     <div class="modal-body">
-      <div class="flexslider" id="flexslider{{i}}">
+      <div class="flexslider" id="flexslider{{x}}{{i}}">
         <ul class="slides">
         {% for q in w.path.all %}
           <li>
-            <img id="picID{{q.id}}{{i}}" src="/media/{{q.paths}}/">
+            <img id="picID{{x}}{{q.id}}{{i}}" src="/media/{{q.paths}}/">
             <div style="text-align:center"><a href="/profile/{{q.user}}"><button class="btn" style="margin-top:20px;">View {{q.user}}'s profile</button></a></div>
           </li>
         {% endfor %}
@@ -202,19 +202,19 @@
   </div>
 {% endfor %}
 
-{% for word, index in snippet_large %}
+{% for word, index, y in snippet_large %}
   <!-- modal -->
-  <div id="picModal{{index}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div id="picModal{{y}}{{index}}" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" id="close_y{{index}}">×</button>
       <p style="font-size:16px;margin-bottom:0;">Pictures added for "{{word.links}}"</p>
     </div>
     <div class="modal-body">
-      <div class="flexslider" id="flexslider{{index}}">
+      <div class="flexslider" id="flexslider{{y}}{{index}}">
         <ul class="slides">
         {% for q in word.path.all %}
           <li>
-            <img id="picID{{q.id}}{{index}}" src="/media/{{q.paths}}/">
+            <img id="picID{{y}}{{q.id}}{{index}}" src="/media/{{q.paths}}/">
             <div style="text-align:center"><a href="/profile/{{q.user}}"><button class="btn" style="margin-top:20px;">View {{q.user}}'s profile</button></a></div>
           </li>
         {% endfor %}
@@ -284,34 +284,34 @@
             }
             if (!$(this).hasClass("hoveringpics")) {
                 $(this).addClass("hoveringpics");
-                {% for w, i in snippet %}
+                {% for w, i, x in snippet %}
                     {% if w.path.all.count != 0 %}
-                        $("#awesome{{i}}{{s.id}}").addClass("hoverpics");
+                        $("#awesome{{x}}{{i}}{{s.id}}").addClass("hoverpics");
                     {% endif %}
                 {% endfor %}
-                {% for word, index in snippet_large %}
+                {% for word, index, y in snippet_large %}
                     {% if word.path.all.count != 0 %}
-                        $("#awesomer{{index}}{{s.id}}").addClass("hoverpics");
+                        $("#awesomer{{y}}{{index}}{{s.id}}").addClass("hoverpics");
                     {% endif %}
                 {% endfor %} 
             }
             else {
                 $(this).removeClass("hoveringpics");
                 $("#linkthree{{s.id}}").removeClass("linkingpics");
-                {% for w, i in snippet %}
+                {% for w, i, x in snippet %}
                     {% if w.path.all.count != 0 %}
-                        $("#awesome{{i}}{{s.id}}").removeClass("hoverpics");
-                        $("#awesome{{i}}{{s.id}}").removeClass("linkpics");
+                        $("#awesome{{x}}{{i}}{{s.id}}").removeClass("hoverpics");
+                        $("#awesome{{x}}{{i}}{{s.id}}").removeClass("linkpics");
                     {% else %}
-                        $("#awesome{{i}}{{s.id}}").removeClass("linkpics");
+                        $("#awesome{{x}}{{i}}{{s.id}}").removeClass("linkpics");
                     {% endif %}
                 {% endfor %}
-                {% for word, index in snippet_large %}
+                {% for word, index, y in snippet_large %}
                     {% if word.path.all.count != 0 %}
-                        $("#awesomer{{index}}{{s.id}}").removeClass("hoverpics");
-                        $("#awesomer{{index}}{{s.id}}").removeClass("linkpics");
+                        $("#awesomer{{y}}{{index}}{{s.id}}").removeClass("hoverpics");
+                        $("#awesomer{{y}}{{index}}{{s.id}}").removeClass("linkpics");
                     {% else %}
-                        $("#awesomer{{index}}{{s.id}}").removeClass("linkpics");
+                        $("#awesomer{{y}}{{index}}{{s.id}}").removeClass("linkpics");
                     {% endif %}
                 {% endfor %} 
             }
@@ -332,33 +332,33 @@
         }
         if (!$(this).hasClass("linkingpics")) {
             $(this).addClass("linkingpics");
-            {% for w, i in snippet %}
-                $("#awesome{{i}}{{s.id}}").addClass("linkpics");
+            {% for w, i, x in snippet %}
+                $("#awesome{{x}}{{i}}{{s.id}}").addClass("linkpics");
                 {% if w.path.all.count != 0 %}
-                    $("#awesome{{i}}{{s.id}}").removeClass("hoverpics");
+                    $("#awesome{{x}}{{i}}{{s.id}}").removeClass("hoverpics");
                 {% endif %}
             {% endfor %}
-            {% for word, index in snippet_large %}
-                $("#awesomer{{index}}{{s.id}}").addClass("linkpics");
+            {% for word, index, y in snippet_large %}
+                $("#awesomer{{y}}{{index}}{{s.id}}").addClass("linkpics");
                 {% if word.path.all.count != 0 %}
-                    $("#awesomer{{index}}{{s.id}}").removeClass("hoverpics");
+                    $("#awesomer{{y}}{{index}}{{s.id}}").removeClass("hoverpics");
                 {% endif %}
             {% endfor %} 
         }
         else {
             $(this).removeClass("linkingpics");
-            {% for w, i in snippet %}
+            {% for w, i, x in snippet %}
                 {% if w.path.all.count != 0 %}
-                    $("#awesome{{i}}{{s.id}}").addClass("hoverpics");
+                    $("#awesome{{x}}{{i}}{{s.id}}").addClass("hoverpics");
                 {% else %}
-                    $("#awesome{{i}}{{s.id}}").removeClass("linkpics");
+                    $("#awesome{{x}}{{i}}{{s.id}}").removeClass("linkpics");
                 {% endif %}
             {% endfor %}
-            {% for word, index in snippet_large %}
+            {% for word, index, y in snippet_large %}
                 {% if word.path.all.count != 0 %}
-                    $("#awesomer{{index}}{{s.id}}").addClass("hoverpics");
+                    $("#awesomer{{y}}{{index}}{{s.id}}").addClass("hoverpics");
                 {% else %}
-                    $("#awesomer{{index}}{{s.id}}").removeClass("linkpics");
+                    $("#awesomer{{y}}{{index}}{{s.id}}").removeClass("linkpics");
                 {% endif %}
             {% endfor %} 
         }
@@ -371,12 +371,12 @@
         });
     });
 
-    {% for w, i in snippet %}
+    {% for w, i, x in snippet %}
 
-        $("#awesome{{i}}{{s.id}}").click(function() {
+        $("#awesome{{x}}{{i}}{{s.id}}").click(function() {
             if ($(this).hasClass("hoverpics")) {
-                $('#picModal{{i}}').fadeIn("slow");
-                $('#flexslider{{i}}').flexslider({
+                $('#picModal{{x}}{{i}}').fadeIn("slow");
+                $('#flexslider{{x}}{{i}}').flexslider({
                     animation: "slide"
                 });
             }
@@ -388,12 +388,12 @@
 
     {% endfor %}
 
-    {% for word, index in snippet_large %}
+    {% for word, index, y in snippet_large %}
 
-        $("#awesomer{{index}}{{s.id}}").click(function() {
+        $("#awesomer{{y}}{{index}}{{s.id}}").click(function() {
             if ($(this).hasClass("hoverpics")) {
-                $('#picModal{{index}}').fadeIn("slow");
-                $('#flexslider{{index}}').flexslider({
+                $('#picModal{{y}}{{index}}').fadeIn("slow");
+                $('#flexslider{{y}}{{index}}').flexslider({
                     animation: "slide"
                 });
             }
@@ -457,19 +457,19 @@
 
   {% endfor %}
 
-  {% for w, i in snippet %}
+  {% for w, i, x in snippet %}
 
     $("#close_y{{i}}").click(function() {
-        $('#picModal{{i}}').fadeOut("slow");
+        $('#picModal{{x}}{{i}}').fadeOut("slow");
     });
 
     $("#closey{{i}}").click(function() {
-        $('#picModal{{i}}').fadeOut("slow");
+        $('#picModal{{x}}{{i}}').fadeOut("slow");
     });
 
     $(document).mouseup(function(e) {
 
-        var container1 = $("#picModal{{i}}");
+        var container1 = $("#picModal{{x}}{{i}}");
 
         if (!container1.is(e.target) && container1.has(e.target).length === 0) {
 
@@ -481,19 +481,19 @@
 
   {% endfor %}
 
-  {% for word, index in snippet_large %}
+  {% for word, index, y in snippet_large %}
 
     $("#close_y{{index}}").click(function() {
-        $('#picModal{{index}}').fadeOut("slow");
+        $('#picModal{{y}}{{index}}').fadeOut("slow");
     });
 
     $("#closey{{index}}").click(function() {
-        $('#picModal{{index}}').fadeOut("slow");
+        $('#picModal{{y}}{{index}}').fadeOut("slow");
     });
 
     $(document).mouseup(function(e) {
 
-        var container1 = $("#picModal{{index}}");
+        var container1 = $("#picModal{{y}}{{index}}");
 
         if (!container1.is(e.target) && container1.has(e.target).length === 0) {
 

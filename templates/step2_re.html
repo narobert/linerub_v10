@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<div class="padded"></div>
+<div class="alertRed transtitle"><p class="alertMiddle">can't you read?! click on one or more words in the blue box before you can move to step three!</p></div>
 
 <div class="container">
   <p style="margin-bottom:50px;margin-top:14px;font-size:18px;"><font style="font-size:25px;font-weight:600;margin-right:10px;">step 2: </font> click on the words that best emphasize your story or feeling</p>
@@ -29,10 +29,10 @@
       {% endfor %}
     </div>
   </div>
-  <form method="POST" action="/highlightw/{{id}}/" id="formout">
-    <input class="input-block-level" type="text" id="highlights" name="highlight" required></input>
+  <form method="POST" id="formout">
+    <input class="input-block-level" type="text" id="highlights" name="highlight"></input>
   </form>
-  <center><button class="btn btn-large bottoms" name="submit" type="submit" form="formout">Publish</button></center>
+  <center><button class="btn btn-large bottoms" id="throwError" form="formout">Move to step three!</button></center>
 </div>
 
 {% endblock %}
@@ -40,6 +40,16 @@
 {% block extra-js %}
 
 <script>
+
+  $('#formout').submit(function() {
+      if ($("#highlights").val() == "") {
+          $(".transtitle").css("display", "block");
+          return false;
+      }
+      else {
+          $(this).attr("action", "/highlight/{{id}}/");
+      }
+  });
 
   $('#highlights').keydown(function() {
     return false;

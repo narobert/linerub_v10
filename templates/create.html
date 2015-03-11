@@ -5,15 +5,16 @@
 
 {% block body %}
 
-<div class="padded"></div>
+<div class="alertRed transtitle"><p class="alertMiddle">add a title please!</p></div>
+<div class="alertRed transparagraph"><p class="alertMiddle">you didn't write, damn it!&nbsp;&nbsp;DO NOT disobey us again.</p></div>
 
 <div class="container">
   <p style="margin-bottom:50px;margin-top:14px;font-size:18px;"><font style="font-size:25px;font-weight:600;margin-right:10px;">step 1: </font> write about an experience you've had or just a feeling, mayne</p>
   <center>
-    <form method="POST" action="/submit/" id="formid">
-      <input class="input-block-level" id="inputBox" type="text" name="title" placeholder="Give your story an inspiring title" required></input>
-      <textarea class="input-block-level" id="textbox" type="text" name="paragraph" placeholder="Now write, damn it!" required></textarea>
-      <button class="btn btn-large bottoms" name="submit" type="submit">Move to step two!</button>
+    <form method="POST" id="formid">
+      <input class="input-block-level" id="inputBox" type="text" name="title" placeholder="Give your story an inspiring title"></input>
+      <textarea class="input-block-level" id="textbox" type="text" name="paragraph" placeholder="Now write, damn it!"></textarea>
+      <button class="btn btn-large bottoms" name="submit" type="submit" id="throwError">Move to step two!</button>
     </form>
   </center>
 </div>
@@ -21,4 +22,23 @@
 {% endblock %}
 
 {% block extra-js %}
-{% endblock %}
+
+  <script>
+  $('#formid').submit(function() {
+      if ($("#inputBox").val() == "") {
+          $(".transparagraph").css("display", "none");
+          $(".transtitle").css("display", "block");
+          return false;
+      }
+      else if ($("#textbox").val() == "") {
+          $(".transtitle").css("display", "none");
+          $(".transparagraph").css("display", "block");
+          return false;
+      }
+      else {
+          $(this).attr("action", "/submit/");
+      }
+  });
+  </script>
+
+{% endblock %}le

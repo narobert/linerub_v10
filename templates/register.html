@@ -36,6 +36,10 @@
       <img class="adjust" src="/images/logo.jpg">
     </center>
 
+    {% if error == True %}
+      <div class="alertRed"><p class="alertMiddle">Username can only contain letters and numbers</p></div>
+    {% endif %}
+
     {% if form.errors %}
 
     <div class="alertRed"><p class="alertMiddle">Username already taken</p></div>
@@ -51,14 +55,14 @@
             <p class="regSize">or register</p>
           </div>
           <form method="post" action="/login/" id="hideLog">
-            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="254" placeholder="Username" required>
-            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="4096" placeholder="Password" required>
+            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="254" placeholder="Username">
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="4096" placeholder="Password">
             <button class="btn btn-large" name="submit" type="submit">Log in</button>
           </form>
           <form method="POST" action="/register/" id="hideReg">
-            <input class="input-block-level focusme" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
-            <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email" required>
-            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password" required>
+            <input class="input-block-level focusme" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username">
+            <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email">
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password">
             <button class="btn btn-large" name="submit" type="submit">Sign up</button>
           </form>
         </div>
@@ -94,14 +98,14 @@
             <p class="regSize">or register</p>
           </div>
           <form method="post" action="/login/" id="hideLog">
-            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="254" placeholder="Username" required>
-            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="4096" placeholder="Password" required>
+            <input class="input-block-level" id="inputBox" type="text" name="username" maxlength="254" placeholder="Username">
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="4096" placeholder="Password">
             <button class="btn btn-large" name="submit" type="submit">Log in</button>
           </form>
           <form method="POST" action="/register/" id="hideReg">
-            <input class="input-block-level focusme" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username" required>
-            <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email" required>
-            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password" required>
+            <input class="input-block-level focusme" id="inputBox" type="text" name="username" maxlength="20" placeholder="Username">
+            <input class="input-block-level" id="inputBox" name="email" type="email" placeholder="Email">
+            <input class="input-block-level" id="inputBox" type="password" name="password" maxlength="40" placeholder="Password">
             <button class="btn btn-large" name="submit" type="submit">Sign up</button>
           </form>
         </div>

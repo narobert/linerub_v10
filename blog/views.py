@@ -128,6 +128,23 @@ def tag(request, id, word):
     else:
         form = TagForm()
     return render_to_response("dashboard.html", {"form": form})
+
+# Changes made again
+def tagfirst(request, id, word):
+    if request.method == 'POST':
+        form = TagForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.cleaned_data['image']
+            story = Share.objects.get(id = id)
+            links = Link.objects.get(story = story, id = word) 
+            key = Image.objects.create(story = story, user = request.user, paths = image)
+            key.save()
+            links.path.add(key)
+            links.save()
+            return HttpResponseRedirect('/optional/' + id)
+    else:
+        form = TagForm()
+    return render_to_response("step3.html", {"form": form})
     
 
 # Changes made
@@ -433,16 +450,89 @@ def profile(request, username):
     return render_to_response("profile.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "posts": num, "username": username, "follow": follow, "following": following, "followers": followers, "flag": nostory, "footer": footer, "like": like, "template": allarray, "myimages": myimages, "images": images, "number": numImage})
 
 
+def optional(request, pk):
+    array = []
+    array_large = []
+    total = 0
+    total_large = 0
+    darray = []
+    allarray = []
+    numImages = 0
+
+    story = Share.objects.get(id = pk)
+
+    story.publish = True
+    story.save()
+
+    tags = Link.objects.filter(story = story)
+    images = Image.objects.filter(story = story)
+    link = Link.objects.filter(story = story)
+
+    for i in images:
+
+        numImages = numImages + 1
+
+    cool = str(story.title)
+    cooler = str(story.paragraph)
+    trim = cool.split()
+    trimmer = cooler.split()
+    trimmest = cooler.splitlines()
+
+    darray = []
+    sums = 0
+    count = 0
+
+    for x in trimmest:
+        count = count + 1
+        v = x.split()
+        sums = sums + len(v)
+        darray.append([sums, count, len(v), story.id])
+
+    allarray.append(darray)
+
+    for w in trim:
+        flag = False
+        for l in link:
+            if w == l.links:
+                heapq.heappush(array, (l, total, story.id))
+                flag = True
+        if (flag == False):
+            heapq.heappush(array, (w, total, story.id))
+        total = total + 1
+
+    store = 0
+    for w, p, c, q in darray:
+        if (c != 0):
+            chill = 0
+            for word in trimmer:
+                flag = False
+                chill = chill + 1
+                if (chill > store and chill <= w):
+                    for l in link:
+                        if word == l.links:
+                            heapq.heappush(array_large, (l, total, story.id, p))
+                            flag = True
+                    if (flag == False):
+                        heapq.heappush(array_large, (word, total, story.id, p))
+                total = total + 1
+            store = w
+
+    sortme = sorted(array, key=lambda x: x[1])
+    sortme_large = sorted(array_large, key=lambda x: x[1])
+
+    if not request.user.is_authenticated():
+        return render_to_response("register.html")
+    return render_to_response("step3.html", {"user": request.user, "snippet": sortme, "snippet_large": sortme_large, "story": story, "links": tags, "template": allarray, "images": images, "number": numImages})
+
+
 def highlight(request):
     if request.method == 'POST':
         form = HighlightForm(request.POST)
         if form.is_valid():
             high = form.cleaned_data['highlight']
             story = Share.objects.filter(user = request.user, publish = False).order_by('-pk')[0]
-            story.publish = True
             light = Highlight.objects.create(user = request.user, highlights = high, story = story)
             light.save()
-            story.save()
 
             cool = str(light.highlights)
             cooler = str(story.paragraph)
@@ -463,7 +553,8 @@ def highlight(request):
                         if (Link.objects.filter(links = words, story = story).count() == 0):
                             link = Link.objects.create(links = words, story = story)
 
-            return HttpResponseRedirect('/')
+            url = reverse('optional', kwargs={'pk': story.id})
+            return HttpResponseRedirect(url)
     else:
         form = HighlightForm()
     return render_to_response("error.html", {"form": form})
@@ -475,10 +566,8 @@ def highlightw(request, id):
         if form.is_valid():
             high = form.cleaned_data['highlight']
             story = Share.objects.filter(user = request.user, publish = False).order_by('-pk')[0]
-            story.publish = True
             light = Highlight.objects.create(user = request.user, highlights = high, story = story)
             light.save()
-            story.save()
 
             cool = str(light.highlights)
             cooler = str(story.paragraph)
@@ -499,7 +588,8 @@ def highlightw(request, id):
                         if (Link.objects.filter(links = words, story = story).count() == 0):
                             link = Link.objects.create(links = words, story = story)
 
-            return HttpResponseRedirect('/')
+            url = reverse('optional', kwargs={'pk': story.id})
+            return HttpResponseRedirect(url)
     else:
         form = HighlightForm()
     return render_to_response("error.html", {"form": form})
@@ -622,10 +712,19 @@ def submit(request):
 
 
 def register(request):
+    error = False
     if request.method == 'POST':
         form = UserForm(request.POST, request.FILES)
         if form.is_valid():
             name = form.cleaned_data['username']
+
+            if str(name).isalnum():
+                error = False
+            else:
+                form = UserForm()
+                error = True
+                return render_to_response("register.html", {"form": form, "error": error})
+
             pw = form.cleaned_data['password']
             newuser = User.objects.create_user(name, form.cleaned_data['email'], pw)
             newuser.save()
