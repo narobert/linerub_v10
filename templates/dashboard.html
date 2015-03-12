@@ -117,9 +117,6 @@
         </ul>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn" id="closeview{{s.id}}">Close</button>
-    </div>
   </div>
 {% endfor %}
 
@@ -142,10 +139,6 @@
         </ul>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn" id="closey{{i}}">Close</button>
-      <button class="btn" name="submit" type="submit" form="form_id">Add image</button>
-    </div>
   </div>
 {% endfor %}
 
@@ -167,10 +160,6 @@
         {% endfor %}
         </ul>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" id="closey{{index}}">Close</button>
-      <button class="btn" name="submit" type="submit" form="form_id">Add image</button>
     </div>
   </div>
 {% endfor %}
@@ -436,10 +425,6 @@
         $('#viewModal{{s.id}}').fadeOut("slow");
     });
 
-    $("#closeview{{s.id}}").click(function() {
-        $('#viewModal{{s.id}}').fadeOut("slow");
-    });
-
     $(document).mouseup(function(e) {
 
         var container2 = $("#viewModal{{s.id}}");
@@ -460,10 +445,6 @@
         $('#picModal{{x}}{{i}}').fadeOut("slow");
     });
 
-    $("#closey{{i}}").click(function() {
-        $('#picModal{{x}}{{i}}').fadeOut("slow");
-    });
-
     $(document).mouseup(function(e) {
 
         var container1 = $("#picModal{{x}}{{i}}");
@@ -481,10 +462,6 @@
   {% for word, index, y in snippet_large %}
 
     $("#close_y{{index}}").click(function() {
-        $('#picModal{{y}}{{index}}').fadeOut("slow");
-    });
-
-    $("#closey{{index}}").click(function() {
         $('#picModal{{y}}{{index}}').fadeOut("slow");
     });
 
